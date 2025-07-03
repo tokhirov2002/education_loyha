@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Manzillar - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="hero-section" style="padding: 120px 0 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center text-white">
+                <h1 class="display-4 fw-bold mb-3" data-aos="fade-up">Bizning Filiallar</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">
+                    Shahar bo'ylab qulay joylashgan filiallarimiz
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Branches Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% for branch in branches %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card h-100">
+                    {% if branch.image %}
+                        <img src="{{ branch.image.url }}" class="card-img-top" alt="{{ branch.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="/placeholder.svg?height=200&width=300" class="card-img-top" alt="{{ branch.name }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            {{ branch.name }}
+                        </h5>
+                        
+                        <div class="branch-info flex-grow-1">
+                            <p class="mb-2">
+                                <i class="fas fa-home text-muted me-2"></i>
+                                <strong>Manzil:</strong> {{ branch.address }}
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-phone text-muted me-2"></i>
+                                <strong>Telefon:</strong> 
+                                <a href="tel:{{ branch.phone }}" class="text-decoration-none">{{ branch.phone }}</a>
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-envelope text-muted me-2"></i>
+                                <strong>Email:</strong> 
+                                <a href="mailto:{{ branch.email }}" class="text-decoration-none">{{ branch.email }}</a>
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-clock text-muted me-2"></i>
+                                <strong>Ish vaqti:</strong> {{ branch.working_hours }}
+                            </p>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <div class="d-flex gap-2">
+                                {% if branch.latitude and branch.longitude %}
+                                <a href="https://maps.google.com/?q={{ branch.latitude }},{{ branch.longitude }}" 
+                                   target="_blank" class="btn btn-primary flex-fill">
+                                    <i class="fas fa-map me-2"></i>Xaritada Ko'rish
+                                </a>
+                                {% endif %}
+                                <a href="tel:{{ branch.phone }}" class="btn btn-success flex-fill">
+                                    <i class="fas fa-phone me-2"></i>Qo'ng'iroq
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="py-5">
+                    <i class="fas fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Filiallar ma'lumotlari yo'q</h4>
+                    <p class="text-muted">Tez orada yangi filiallar qo'shiladi.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+{% if branches %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center section-title mb-5" data-aos="fade-up">Filiallar Xaritasi</h2>
+        <div class="row">
+            <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div id="map" style="height: 400px; width: 100%;">
+                            <!-- Google Maps yoki boshqa xarita servisi bu yerda bo'ladi -->
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                                <div class="text-center">
+                                    <i class="fas fa-map fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">Xarita yuklanmoqda...</h5>
+                                    <p class="text-muted">Google Maps integratsiyasi qo'shiladi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Contact CTA -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));">
+    <div class="container text-center text-white">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="mb-4">Bizga Tashrif Buyuring!</h2>
+                <p class="lead mb-4">
+                    Eng yaqin filialni tanlang va biz bilan bog'laning. Sizni kutib qolamiz!
+                </p>
+                <a href="{% url 'contact' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-envelope me-2"></i>Aloqa Qiling
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Google Maps integratsiyasi uchun JavaScript kodi
+    // Bu yerda xaritani yuklash va markerlarni qo'shish kodi bo'ladi
+    console.log('Xarita yuklanmoqda...');
+</script>
+{% endblock %}

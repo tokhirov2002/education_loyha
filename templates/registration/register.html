@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Ro'yxatdan o'tish - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top: 80px; min-height: 80vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow" data-aos="fade-up">
+                    <div class="card-header bg-success text-white text-center">
+                        <h3 class="mb-0">
+                            <i class="fas fa-user-plus me-2"></i>Ro'yxatdan O'tish
+                        </h3>
+                    </div>
+                    <div class="card-body p-4">
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <ul class="mb-0">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Foydalanuvchi nomi
+                                </label>
+                                {{ form.username }}
+                                <div class="form-text">
+                                    150 ta yoki undan kam belgi. Faqat harflar, raqamlar va @/./+/-/_ belgilar.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Parol
+                                </label>
+                                {{ form.password1 }}
+                                <div class="form-text">
+                                    Parolingiz kamida 8 ta belgidan iborat bo'lishi kerak.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-2"></i>Parolni tasdiqlang
+                                </label>
+                                {{ form.password2 }}
+                                <div class="form-text">
+                                    Tasdiqlash uchun bir xil parolni kiriting.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    <a href="#" class="text-decoration-none">Foydalanish shartlari</a>ni qabul qilaman
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success w-100 btn-lg mb-3">
+                                <i class="fas fa-user-plus me-2"></i>Ro'yxatdan O'tish
+                            </button>
+                        </form>
+                        
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Hisobingiz bormi? 
+                                <a href="{% url 'login' %}" class="text-decoration-none fw-bold">
+                                    Tizimga kiring
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Benefits -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6 class="text-center mb-3">Ro'yxatdan o'tish afzalliklari:</h6>
+                                <div class="row text-center">
+                                    <div class="col-md-3 mb-2">
+                                        <i class="fas fa-graduation-cap text-primary"></i>
+                                        <small class="d-block">Kurslarga yozilish</small>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <i class="fas fa-chart-line text-success"></i>
+                                        <small class="d-block">Jarayonni kuzatish</small>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <i class="fas fa-certificate text-warning"></i>
+                                        <small class="d-block">Sertifikat olish</small>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <i class="fas fa-bell text-info"></i>
+                                        <small class="d-block">Yangiliklar</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

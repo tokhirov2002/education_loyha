@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block title %}Bosh sahifa - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">
+                    Kelajagingizni Bugun Boshlang!
+                </h1>
+                <p class="lead mb-4">
+                    Bizning ta'lim markazimizda eng zamonaviy kurslar va tajribali o'qituvchilar bilan bilimingizni oshiring.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'courses' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-book me-2"></i>Kurslarni Ko'rish
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone me-2"></i>Aloqa
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="text-center">
+                    <img src="/placeholder.svg?height=400&width=500" alt="Ta'lim" class="img-fluid rounded-3 shadow-lg pulse">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h3 class="fw-bold">1000+</h3>
+                        <p class="text-muted">Talabalar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                        <h3 class="fw-bold">50+</h3>
+                        <p class="text-muted">O'qituvchilar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-book fa-3x text-warning mb-3"></i>
+                        <h3 class="fw-bold">30+</h3>
+                        <p class="text-muted">Kurslar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-map-marker-alt fa-3x text-danger mb-3"></i>
+                        <h3 class="fw-bold">5+</h3>
+                        <p class="text-muted">Filiallar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Courses -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title" data-aos="fade-up">Mashhur Kurslar</h2>
+            <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">
+                Eng ko'p talabalar tanlagan kurslarimiz
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for course in popular_courses %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card course-card h-100">
+                    {% if course.image %}
+                        <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.name }}">
+                    {% else %}
+                        <img src="/placeholder.svg?height=200&width=300" class="card-img-top" alt="{{ course.name }}">
+                    {% endif %}
+                    <div class="price-badge">${{ course.price }}</div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <p class="card-text text-muted flex-grow-1">{{ course.description|truncatewords:15 }}</p>
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>{{ course.duration }} oy
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fas fa-signal me-1"></i>{{ course.get_level_display }}
+                                </small>
+                            </div>
+                            <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary w-100">
+                                <i class="fas fa-eye me-2"></i>Batafsil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Hozircha mashhur kurslar yo'q.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'courses' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-arrow-right me-2"></i>Barcha Kurslar
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Teachers -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title" data-aos="fade-up">Bizning O'qituvchilar</h2>
+            <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">
+                Tajribali va malakali o'qituvchilarimiz
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for teacher in featured_teachers %}
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card teacher-card h-100 text-center">
+                    {% if teacher.image %}
+                        <img src="{{ teacher.image.url }}" class="card-img-top" alt="{{ teacher.user.get_full_name }}">
+                    {% else %}
+                        <img src="/placeholder.svg?height=250&width=200" class="card-img-top" alt="{{ teacher.user.get_full_name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ teacher.user.get_full_name }}</h5>
+                        <p class="text-primary fw-bold">{{ teacher.subject }}</p>
+                        <p class="card-text text-muted">{{ teacher.bio|truncatewords:10 }}</p>
+                        <small class="text-muted">
+                            <i class="fas fa-medal me-1"></i>{{ teacher.experience }} yil tajriba
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Hozircha o'qituvchilar ma'lumotlari yo'q.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'teachers' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-arrow-right me-2"></i>Barcha O'qituvchilar
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest News -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title" data-aos="fade-up">So'nggi Yangiliklar</h2>
+            <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">
+                Ta'lim sohasidagi eng so'nggi yangiliklar
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for news in latest_news %}
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card h-100">
+                    {% if news.image %}
+                        <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="/placeholder.svg?height=200&width=300" class="card-img-top" alt="{{ news.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text text-muted flex-grow-1">{{ news.content|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>{{ news.created_at|date:"d.m.Y" }}
+                            </small>
+                            <a href="{% url 'news_detail' news.pk %}" class="btn btn-outline-primary btn-sm float-end">
+                                O'qish
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Hozircha yangiliklar yo'q.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'news' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-arrow-right me-2"></i>Barcha Yangiliklar
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));">
+    <div class="container text-center text-white">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="mb-4">Bugun O'qishni Boshlang!</h2>
+                <p class="lead mb-4">
+                    Bizning kurslarimizga ro'yxatdan o'ting va professional ko'nikmalaringizni rivojlantiring.
+                </p>
+                <a href="{% url 'courses' %}" class="btn btn-light btn-lg me-3">
+                    <i class="fas fa-graduation-cap me-2"></i>Kurslarni Ko'rish
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-phone me-2"></i>Aloqa Qiling
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

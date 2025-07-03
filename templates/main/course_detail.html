@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<!-- Course Header -->
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Bosh sahifa</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'courses' %}">Kurslar</a></li>
+                        <li class="breadcrumb-item active">{{ course.name }}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="display-5 fw-bold mb-3" data-aos="fade-up">{{ course.name }}</h1>
+                <p class="lead text-muted mb-4" data-aos="fade-up" data-aos-delay="100">{{ course.description }}</p>
+                
+                <div class="course-meta mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Davomiyligi</small>
+                                    <strong>{{ course.duration }} oy</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-signal text-primary me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Daraja</small>
+                                    <strong>{{ course.get_level_display }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-calendar text-primary me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Boshlanish</small>
+                                    <strong>{{ course.start_date|date:"d.m.Y" }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Filial</small>
+                                    <strong>{{ course.branch.name }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;" data-aos="fade-left">
+                    {% if course.image %}
+                        <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.name }}">
+                    {% else %}
+                        <img src="/placeholder.svg?height=250&width=400" class="card-img-top" alt="{{ course.name }}">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h3 class="text-primary fw-bold mb-3">${{ course.price }}</h3>
+                        
+                        {% if user.is_authenticated %}
+                            {% if is_enrolled %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Siz bu kursga ro'yxatdan o'tgansiz
+                                </div>
+                            {% else %}
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                        <i class="fas fa-user-plus me-2"></i>Ro'yxatdan O'tish
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100 mb-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Kirish va Ro'yxatdan O'tish
+                            </a>
+                        {% endif %}
+                        
+                        <div class="text-start">
+                            <h6 class="fw-bold mb-3">Kurs haqida:</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Professional sertifikat
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Amaliy loyihalar
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    24/7 qo'llab-quvvatlash
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Ish topishda yordam
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Teacher Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 text-center mb-4 mb-lg-0" data-aos="fade-right">
+                {% if course.teacher.image %}
+                    <img src="{{ course.teacher.image.url }}" class="rounded-circle img-fluid mb-3" 
+                         style="width: 150px; height: 150px; object-fit: cover;" alt="{{ course.teacher.user.get_full_name }}">
+                {% else %}
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" 
+                         style="width: 150px; height: 150px; font-size: 3rem;">
+                        {{ course.teacher.user.first_name.0 }}{{ course.teacher.user.last_name.0 }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-9" data-aos="fade-left">
+                <h3 class="fw-bold mb-2">O'qituvchi: {{ course.teacher.user.get_full_name }}</h3>
+                <p class="text-primary fw-bold mb-3">{{ course.teacher.subject }}</p>
+                <p class="text-muted mb-3">{{ course.teacher.bio }}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2">
+                            <i class="fas fa-medal text-warning me-2"></i>
+                            <strong>Tajriba:</strong> {{ course.teacher.experience }} yil
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <strong>Telefon:</strong> {{ course.teacher.phone }}
+                        </p>
+                    </div>
+                </div>
+                <a href="{% url 'teacher_detail' course.teacher.pk %}" class="btn btn-outline-primary">
+                    <i class="fas fa-user me-2"></i>Profil Ko'rish
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Course Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-4" data-aos="fade-up">Kurs Dasturi</h3>
+                
+                <div class="accordion" id="courseAccordion" data-aos="fade-up" data-aos-delay="100">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#module1">
+                                <i class="fas fa-play-circle me-2"></i>1-modul: Asoslar
+                            </button>
+                        </h2>
+                        <div id="module1" class="accordion-collapse collapse show" data-bs-parent="#courseAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-video me-2 text-primary"></i>Kirish va tanishish</li>
+                                    <li class="mb-2"><i class="fas fa-video me-2 text-primary"></i>Asosiy tushunchalar</li>
+                                    <li class="mb-2"><i class="fas fa-file-alt me-2 text-success"></i>Amaliy mashq</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module2">
+                                <i class="fas fa-play-circle me-2"></i>2-modul: Amaliy qism
+                            </button>
+                        </h2>
+                        <div id="module2" class="accordion-collapse collapse" data-bs-parent="#courseAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-video me-2 text-primary"></i>Loyiha yaratish</li>
+                                    <li class="mb-2"><i class="fas fa-video me-2 text-primary"></i>Muammolarni yechish</li>
+                                    <li class="mb-2"><i class="fas fa-file-alt me-2 text-success"></i>Yakuniy loyiha</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card" data-aos="fade-left">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Qo'shimcha Ma'lumot</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Filial:</strong> {{ course.branch.name }}</p>
+                        <p><strong>Manzil:</strong> {{ course.branch.address }}</p>
+                        <p><strong>Telefon:</strong> {{ course.branch.phone }}</p>
+                        <p><strong>Ish vaqti:</strong> {{ course.branch.working_hours }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

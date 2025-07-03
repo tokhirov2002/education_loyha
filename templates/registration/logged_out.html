@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}Tizimdan Chiqish - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<section class="py-5" style="margin-top: 80px; min-height: 80vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow text-center" data-aos="fade-up">
+                    <div class="card-body p-5">
+                        <!-- Success Icon -->
+                        <div class="mb-4">
+                            <div class="success-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-check fa-2x"></i>
+                            </div>
+                        </div>
+                        
+                        <h2 class="fw-bold text-success mb-3">
+                            Muvaffaqiyatli Chiqildi!
+                        </h2>
+                        
+                        <p class="lead text-muted mb-4">
+                            Siz tizimdan muvaffaqiyatli chiqib ketdingiz. Bizning xizmatlarimizdan foydalanganingiz uchun rahmat!
+                        </p>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-home me-2"></i>Bosh Sahifaga Qaytish
+                            </a>
+                            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Qayta Kirish
+                            </a>
+                        </div>
+                        
+                        <!-- Additional Info -->
+                        <div class="mt-4 pt-4 border-top">
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Xavfsizlik uchun barcha sessiyalar tozalandi
+                            </p>
+                            
+                            <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                    <h6>Xavfsiz</h6>
+                                    <small class="text-muted">Ma'lumotlaringiz himoyalangan</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+                                    <h6>24/7</h6>
+                                    <small class="text-muted">Har doim mavjud</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-headset fa-2x text-warning mb-2"></i>
+                                    <h6>Yordam</h6>
+                                    <small class="text-muted">Qo'llab-quvvatlash</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-book fa-2x text-primary mb-3"></i>
+                                <h6>Kurslarni Ko'rish</h6>
+                                <p class="text-muted small mb-3">Bizning barcha kurslarimiz bilan tanishing</p>
+                                <a href="{% url 'courses' %}" class="btn btn-outline-primary btn-sm">
+                                    Ko'rish
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope fa-2x text-success mb-3"></i>
+                                <h6>Biz Bilan Bog'laning</h6>
+                                <p class="text-muted small mb-3">Savollaringiz bo'lsa, biz bilan bog'laning</p>
+                                <a href="{% url 'contact' %}" class="btn btn-outline-success btn-sm">
+                                    Aloqa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center" data-aos="fade-up">
+                <h3 class="fw-bold mb-3">Yangiliklar Obunasi</h3>
+                <p class="text-muted mb-4">
+                    Bizning eng so'nggi yangiliklar va maxsus takliflarimizdan xabardor bo'ling
+                </p>
+                <form class="row g-3 justify-content-center">
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" placeholder="Email manzilingizni kiriting" required>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-bell me-2"></i>Obuna Bo'lish
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Media -->
+<section class="py-4" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center text-white" data-aos="fade-up">
+                <h5 class="mb-3">Bizni Ijtimoiy Tarmoqlarda Kuzating</h5>
+                <div class="social-links">
+                    <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="text-white" style="font-size: 1.5rem;">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto redirect after 10 seconds (optional)
+    setTimeout(function() {
+        // Uncomment the line below if you want auto redirect
+        // window.location.href = "{% url 'home' %}";
+    }, 10000);
+    
+    // Add some interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate success icon
+        const successIcon = document.querySelector('.success-icon');
+        if (successIcon) {
+            setTimeout(() => {
+                successIcon.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    successIcon.style.transform = 'scale(1)';
+                }, 200);
+            }, 500);
+        }
+    });
+</script>
+{% endblock %}

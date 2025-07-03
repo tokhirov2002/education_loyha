@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ news_item.title }} - Ta'lim Markazi{% endblock %}
+
+{% block content %}
+<!-- News Header -->
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Bosh sahifa</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'news' %}">Yangiliklar</a></li>
+                        <li class="breadcrumb-item active">{{ news_item.title|truncatewords:5 }}</li>
+                    </ol>
+                </nav>
+                
+                {% if news_item.is_featured %}
+                <div class="mb-3">
+                    <span class="badge bg-danger fs-6">
+                        <i class="fas fa-star me-1"></i>Muhim Yangilik
+                    </span>
+                </div>
+                {% endif %}
+                
+                <h1 class="display-5 fw-bold mb-4" data-aos="fade-up">{{ news_item.title }}</h1>
+                
+                <div class="news-meta mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="d-flex flex-wrap align-items-center gap-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user text-primary me-2"></i>
+                            <span>{{ news_item.author.get_full_name|default:news_item.author.username }}</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-calendar text-primary me-2"></i>
+                            <span>{{ news_item.created_at|date:"d F Y, H:i" }}</span>
+                        </div>
+                        {% if news_item.updated_at != news_item.created_at %}
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-edit text-primary me-2"></i>
+                            <span>O'zgartirilgan: {{ news_item.updated_at|date:"d.m.Y" }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if news_item.image %}
+                <div class="mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <img src="{{ news_item.image.url }}" class="img-fluid rounded shadow" alt="{{ news_item.title }}">
+                </div>
+                {% endif %}
+                
+                <div class="news-content" data-aos="fade-up" data-aos-delay="300">
+                    <div class="fs-5 lh-lg">
+                        {{ news_item.content|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Social Share -->
+                <div class="mt-5 pt-4 border-top" data-aos="fade-up">
+                    <h6 class="fw-bold mb-3">Bu yanglikni ulashing:</h6>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f me-1"></i>Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ news_item.title }}" 
+                           target="_blank" class="btn btn-outline-info">
+                            <i class="fab fa-twitter me-1"></i>Twitter
+                        </a>
+                        <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ news_item.title }}" 
+                           target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-telegram me-1"></i>Telegram
+                        </a>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard()">
+                            <i class="fas fa-copy me-1"></i>Nusxa Olish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related News -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h3 class="text-center fw-bold mb-5" data-aos="fade-up">Boshqa Yangiliklar</h3>
+        
+        <div class="row">
+            {% for related_news in latest_news %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card h-100">
+                    {% if related_news.image %}
+                        <img src="{{ related_news.image.url }}" class="card-img-top" alt="{{ related_news.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="/placeholder.svg?height=200&width=300" class="card-img-top" alt="{{ related_news.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">{{ related_news.title }}</h6>
+                        <p class="card-text text-muted small flex-grow-1">{{ related_news.content|truncatewords:15 }}</p>
+                        <div class="mt-auto">
+                            <small class="text-muted d-block mb-2">
+                                <i class="fas fa-calendar me-1"></i>{{ related_news.created_at|date:"d.m.Y" }}
+                            </small>
+                            <a href="{% url 'news_detail' related_news.pk %}" class="btn btn-outline-primary btn-sm">
+                                O'qish
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'news' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Barcha Yangiliklar
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function copyToClipboard() {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            alert('Havola nusxa olindi!');
+        });
+    }
+</script>
+{% endblock %}
