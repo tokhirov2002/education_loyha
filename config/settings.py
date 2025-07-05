@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-s+2q&v8(p$#z==te7)4@@0i*ecw5wt3wj9xa(dlmsawdm^&28b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.railway.app']
+import os
+# ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1'] --> agar deploy bumasa buni sinab kuramiz
 
 
 # Application definition
@@ -73,11 +75,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3'
+    )
 }
 
 
